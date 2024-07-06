@@ -17,7 +17,7 @@ public class Rook extends Piece {
     }
 
     public Rook(int xPos, int yPos, Color color, ChessGame chessGame) {
-        super(chessGame);
+        super(chessGame, color == Color.WHITE ? "images/Chess_rlt60.png" : "images/Chess_rdt60.png");
         this.xPos = xPos;
         this.yPos = yPos;
         this.color = color;
@@ -27,6 +27,7 @@ public class Rook extends Piece {
         this.xPos = otherRook.xPos;
         this.yPos = otherRook.yPos;
         this.color = otherRook.color;
+        this.chessGame = otherRook.chessGame;
     }
 
     @Override
@@ -44,10 +45,12 @@ public class Rook extends Piece {
         this.color = color;
     }
 
+    @Override
     public int getXPos() {
         return xPos;
     }
 
+    @Override
     public int getYPos() {
         return yPos;
     }

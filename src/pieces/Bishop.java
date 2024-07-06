@@ -19,7 +19,7 @@ public class Bishop extends Piece {
     }
 
     public Bishop(int xPos, int yPos, Color color, ChessGame chessGame) {
-        super(chessGame);
+        super(chessGame, color == Color.WHITE ? "images/Chess_blt60.png" : "images/Chess_bdt60.png");
         this.xPos = xPos;
         this.yPos = yPos;
         this.color = color;
@@ -46,10 +46,12 @@ public class Bishop extends Piece {
         this.color = color;
     }
 
+    @Override
     public int getXPos() {
         return xPos;
     }
 
+    @Override
     public int getYPos() {
         return yPos;
     }

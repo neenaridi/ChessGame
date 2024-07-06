@@ -20,7 +20,7 @@ public class King extends Piece {
     }
 
     public King(int xPos, int yPos, Color color, ChessGame chessGame) {
-        super(chessGame);
+        super(chessGame, color == Color.WHITE ? "images/Chess_klt60.png" : "images/Chess_kdt60.png");
         this.xPos = xPos;
         this.yPos = yPos;
         this.color = color;
@@ -51,10 +51,12 @@ public class King extends Piece {
         this.inCheck = status;
     }
 
+    @Override
     public int getXPos() {
         return xPos;
     }
 
+    @Override
     public int getYPos() {
         return yPos;
     }

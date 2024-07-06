@@ -17,7 +17,7 @@ public class Pawn extends Piece {
     }
 
     public Pawn(int xPos, int yPos, Color color, ChessGame chessGame) {
-        super(chessGame);
+        super(chessGame, color == Color.WHITE ? "images/Chess_plt60.png" : "images/Chess_pdt60.png");
         this.xPos = xPos;
         this.yPos = yPos;
         this.color = color;
@@ -44,10 +44,12 @@ public class Pawn extends Piece {
         this.color = color;
     }
 
+    @Override
     public int getXPos() {
         return this.xPos;
     }
 
+    @Override
     public int getYPos() {
         return this.yPos;
     }

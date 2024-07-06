@@ -1,15 +1,26 @@
 package game;
 
+import javafx.application.Application;
+import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
+import javafx.event.EventHandler;
 import pieces.*;
 import pieces.enums.Color;
 import pieces.enums.Type;
 
+import java.util.ArrayList;
+
 public class ChessGame {
     private static final int BOARD_SIZE = 8;
+    private static final int TILE_SIZE = 50;
     private static ChessGame instance;
     public static Piece[][] currentBoard = new Piece[BOARD_SIZE][BOARD_SIZE];
+    public static ArrayList<Piece> eatenPieces = new ArrayList<Piece>();
+    private Piece selectedPiece = null;
 
-    private ChessGame() {
+    public ChessGame() {
         populateBoard();
     }
 
@@ -71,19 +82,28 @@ public class ChessGame {
         return currentBoard[x][y];
     }
 
+    public boolean onBoard(int wantX, int wantY) {
+        return ((wantX >= 0 && wantX <= 7) && (wantY >= 0 && wantY <= 7));
+    }
+
     public boolean friendlyCollision(int pieceX, int pieceY, int wantX, int wantY) {
         return (currentBoard[pieceX][pieceY].getColor() == currentBoard[wantX][wantY].getColor());
     }
 
     public void movePiece(int pieceX, int pieceY, int wantX, int wantY) {
-        boolean friendlyMove, validPieceMove;
+        boolean friendlyMove, validPieceMove, onBoard;
 
         if (currentBoard[wantX][wantY] != null)
             friendlyMove = friendlyCollision(pieceX, pieceY, wantX, wantY);
         else friendlyMove = false;
         validPieceMove = currentBoard[pieceX][pieceY].isValid(wantX, wantY);
+        onBoard = onBoard(wantX, wantY);
 
-        if (!friendlyMove && validPieceMove) {
+        if (!friendlyMove && validPieceMove && onBoard) {
+            if (currentBoard[wantX][wantY] != null && !friendlyCollision(pieceX, pieceY, wantX, wantY)) {
+                eatenPieces.add(currentBoard[wantX][wantY]);
+            }
+
             if (currentBoard[pieceX][pieceY].getType() == Type.ROOK) {
                 currentBoard[wantX][wantY] = new Rook((Rook) currentBoard[pieceX][pieceY]);
             } else if (currentBoard[pieceX][pieceY].getType() == Type.KNIGHT) {
@@ -97,6 +117,7 @@ public class ChessGame {
             } else if (currentBoard[pieceX][pieceY].getType() == Type.PAWN) {
                 currentBoard[wantX][wantY] = new Pawn((Pawn) currentBoard[pieceX][pieceY]);
             }
+
             currentBoard[wantX][wantY].setXPos(wantX);
             currentBoard[wantX][wantY].setYPos(wantY);
             currentBoard[wantX][wantY].setColor(currentBoard[pieceX][pieceY].getColor());

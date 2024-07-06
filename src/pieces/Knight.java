@@ -19,7 +19,7 @@ public class Knight extends Piece {
     }
 
     public Knight(int xPos, int yPos, Color color, ChessGame chessGame) {
-        super(chessGame);
+        super(chessGame, color == Color.WHITE ? "images/Chess_nlt60.png" : "images/Chess_ndt60.png");
         this.xPos = xPos;
         this.yPos = yPos;
         this.color = color;
@@ -46,10 +46,12 @@ public class Knight extends Piece {
         this.color = color;
     }
 
+    @Override
     public int getXPos() {
         return this.xPos;
     }
 
+    @Override
     public int getYPos() {
         return this.yPos;
     }

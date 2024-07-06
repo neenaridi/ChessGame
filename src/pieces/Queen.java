@@ -17,7 +17,7 @@ public class Queen extends Piece {
     }
 
     public Queen(int xPos, int yPos, Color color, ChessGame chessGame) {
-        super(chessGame);
+        super(chessGame, color == Color.WHITE ? "images/Chess_qlt60.png" : "images/Chess_qdt60.png");
         this.xPos = xPos;
         this.yPos = yPos;
         this.color = color;
@@ -44,10 +44,12 @@ public class Queen extends Piece {
         this.color = color;
     }
 
+    @Override
     public int getXPos() {
         return xPos;
     }
 
+    @Override
     public int getYPos() {
         return yPos;
     }
