@@ -86,4 +86,9 @@ public class King extends Piece {
             return true;
         else return false;
     }
+
+    @Override
+    public boolean pieceInBetween(int wantX, int wantY) {
+        return false; // king can only move 1 space, there will never be a piece in between
+    }
 }

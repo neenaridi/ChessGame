@@ -81,4 +81,9 @@ public class Rook extends Piece {
             return true;
         else return false;
     }
+
+    @Override
+    public boolean pieceInBetween(int wantX, int wantY) {
+        return false;
+    }
 }

@@ -1,15 +1,14 @@
 package game;
 
-import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.event.EventTarget;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
-import javafx.scene.input.MouseEvent;
-import javafx.event.EventHandler;
 import pieces.*;
 import pieces.enums.Color;
 import pieces.enums.Type;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class ChessGame {
@@ -19,6 +18,7 @@ public class ChessGame {
     public static Piece[][] currentBoard = new Piece[BOARD_SIZE][BOARD_SIZE];
     public static ArrayList<Piece> eatenPieces = new ArrayList<Piece>();
     private Piece selectedPiece = null;
+    private GridPane chessBoard;
 
     public ChessGame() {
         populateBoard();
@@ -91,16 +91,17 @@ public class ChessGame {
     }
 
     public void movePiece(int pieceX, int pieceY, int wantX, int wantY) {
-        boolean friendlyMove, validPieceMove, onBoard;
+        boolean friendlyMove, validPieceMove, onBoard, pieceInBetween;
 
         if (currentBoard[wantX][wantY] != null)
             friendlyMove = friendlyCollision(pieceX, pieceY, wantX, wantY);
         else friendlyMove = false;
         validPieceMove = currentBoard[pieceX][pieceY].isValid(wantX, wantY);
         onBoard = onBoard(wantX, wantY);
+        pieceInBetween = currentBoard[pieceX][pieceY].pieceInBetween(wantX, wantY);
 
-        if (!friendlyMove && validPieceMove && onBoard) {
-            if (currentBoard[wantX][wantY] != null && !friendlyCollision(pieceX, pieceY, wantX, wantY)) {
+        if (!friendlyMove && validPieceMove && onBoard && !pieceInBetween) {
+            if (currentBoard[wantX][wantY] != null) {
                 eatenPieces.add(currentBoard[wantX][wantY]);
             }
 
@@ -123,5 +124,27 @@ public class ChessGame {
             currentBoard[wantX][wantY].setColor(currentBoard[pieceX][pieceY].getColor());
             currentBoard[pieceX][pieceY] = null;
         }
+    }
+
+    public GridPane createBoard() {
+        chessBoard = new GridPane();
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                Rectangle tile = new Rectangle(TILE_SIZE, TILE_SIZE);
+
+                if ((i + j) % 2 == 0)
+                    tile.setFill(javafx.scene.paint.Color.WHITE);
+                else tile.setFill(javafx.scene.paint.Color.GREY);
+
+                chessBoard.add(tile, i, j);
+
+                Piece piece = currentBoard[i][j];
+                if (piece != null) {
+                    chessBoard.add(piece.getImageView(), i, j);
+                }
+            }
+        }
+        return chessBoard;
     }
 }

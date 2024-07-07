@@ -28,6 +28,8 @@ public abstract class Piece {
 
     public abstract boolean isValid(int x, int y);
 
+    public abstract boolean pieceInBetween(int x, int y);
+
     public abstract void setXPos(int x);
 
     public abstract void setYPos(int y);
